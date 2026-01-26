@@ -17,7 +17,8 @@ export function GrowthEngine() {
     const storedKey = localStorage.getItem("gemini_api_key") || ""
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/analyze-gap", {
+      // 👇 CORRECT URL (No extra brackets!)
+      const res = await fetch("https://careeros-backend-k2h7.onrender.com/analyze-gap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // 👇 SEND KEY TO BACKEND

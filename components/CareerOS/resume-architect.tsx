@@ -19,7 +19,8 @@ export function ResumeArchitect() {
     const storedKey = localStorage.getItem("gemini_api_key") || ""
     
     try {
-      const res = await fetch("http://127.0.0.1:8000/optimize", {
+      // 👇 CORRECT URL (No extra brackets!)
+      const res = await fetch("https://careeros-backend-k2h7.onrender.com/optimize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // 👇 SEND KEY TO BACKEND
