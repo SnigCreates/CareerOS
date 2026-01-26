@@ -1,0 +1,13 @@
+# Ignore Frontend Junk
+node_modules/
+.next/
+.env.local
+.env
+
+# Ignore Backend Junk
+backend/__pycache__/
+backend/venv/
+*.pyc
+
+# System Junk
+.DS_Store
