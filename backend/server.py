@@ -114,6 +114,38 @@ class JobApplication(BaseModel):
     status: str = "Applied"
     date_applied: str = str(date.today())
 
+
+# --- 4. NEW: SMART JOB EXTRACTOR ---
+class JobTextRequest(BaseModel):
+    text: str
+    api_key: Optional[str] = None
+
+@app.post("/extract-job")
+async def extract_job_details(request: JobTextRequest):
+    try:
+        prompt = f"""
+        Act as a Data Extractor. Extract job details from this text:
+        "{request.text[:4000]}"
+        
+        RETURN ONLY RAW JSON (No markdown, no comments) with these keys:
+        {{
+            "role": "Job Title",
+            "company": "Company Name",
+            "location": "City/Remote",
+            "salary": "Salary or N/A"
+        }}
+        """
+        
+        ai_text = get_gemini_response(prompt, request.api_key)
+        
+        # Clean up potential markdown formatting from AI
+        clean_json = ai_text.replace("```json", "").replace("```", "").strip()
+        
+        return {"status": "success", "data": json.loads(clean_json)}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
 jobs_db = [{"id":"1", "role":"Frontend Dev", "company":"Google", "status":"Applied", "date_applied":"2026-01-28"}]
 
 @app.get("/jobs")
